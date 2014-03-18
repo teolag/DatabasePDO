@@ -11,22 +11,22 @@ class DatabasePDO {
 			die($e->getMessage());
 		}
 	}
-	
+
 	public function getArray($sql, $inputs=array()) {
 		$result = $this->query($sql, $inputs);
 		return $result->fetchAll(PDO::FETCH_ASSOC);
 	}
-	
+
 	public function getRow($sql, $inputs=array()) {
 		$result = $this->query($sql, $inputs);
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}
-	
+
 	public function getValue($sql, $inputs=array()) {
 		$result = $this->query($sql, $inputs);
 		return $result->fetchColumn();
 	}
-	
+
 	public function query($sql, $inputs=array()) {
 		try {
 			$sth = $this->connection->prepare($sql);
@@ -43,18 +43,17 @@ class DatabasePDO {
 		$sth = $this->query($sql, $inputs);
 		return $this->connection->lastInsertId();
 	}
-	
+
 	public function update($sql, $inputs=array()) {
 		$sth = $this->query($sql, $inputs);
 		return $sth->rowCount();
 	}
-	
+
 	public function execute($sql, $inputs=array()) {
 		$sth = $this->query($sql, $inputs);
 		return $sth->rowCount();
 	}
-	
+
 }
-	
 
 ?>
