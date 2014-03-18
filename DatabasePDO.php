@@ -53,6 +53,33 @@ class DatabasePDO {
 		$sth = $this->query($sql, $inputs);
 		return $sth->rowCount();
 	}
+	
+	
+	
+	public function insertArray($table, $arr) {
+		foreach($arr as $c => $v) {
+			if(is_array($v)) $arr[$c] = implode($v,", ");
+			$arr[$c] = $v;
+		}
+		$columns = implode(array_keys($arr),"`, `");
+		$values = implode($arr,"', '");
+		
+		$sql = "INSERT INTO ". $table ."(`".$columns."`) VALUES('".$values."')";
+		$this->execute($sql);
+		return mysql_insert_id();
+	}
+
+	public function updateArray($table, $arr, $idName, $id) {
+		foreach($arr as $c => $v) {
+			if(is_array($v)) $v = implode($v,", ");
+			$sets[$c] = "`". $c . "`='" . $v . "'";
+		}
+		$sets = implode($sets,", ");
+		
+		$sql = "UPDATE ". $table ." SET ".$sets." WHERE ".$idName."='" . $id . "'";
+		$this->execute($sql);
+	}
+	
 
 }
 
