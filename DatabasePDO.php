@@ -66,7 +66,7 @@ class DatabasePDO {
 		
 		$sql = "INSERT INTO ". $table ."(`".$columns."`) VALUES('".$values."')";
 		$this->execute($sql);
-		return mysql_insert_id();
+		return $this->connection->lastInsertId();
 	}
 
 	public function updateArray($table, $arr, $idName, $id) {
