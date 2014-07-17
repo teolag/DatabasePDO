@@ -12,9 +12,13 @@ class DatabasePDO {
 		}
 	}
 
-	public function getArray($sql, $inputs=array()) {
+	public function getArray($sql, $inputs=array(), $idAsKey=false) {
 		$result = $this->query($sql, $inputs);
-		return $result->fetchAll(PDO::FETCH_ASSOC);
+		if($idAsKey) {
+			return $result->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC | PDO::FETCH_UNIQUE);
+		} else {
+			return $result->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}
 
 	public function getRow($sql, $inputs=array()) {
@@ -25,6 +29,11 @@ class DatabasePDO {
 	public function getValue($sql, $inputs=array()) {
 		$result = $this->query($sql, $inputs);
 		return $result->fetchColumn();
+	}
+	
+	public function getKeyPair($sql, $inputs=array()) {
+		$result = $this->query($sql, $inputs);
+		return $result->fetchAll(PDO::FETCH_KEY_PAIR);
 	}
 
 	public function query($sql, $inputs=array()) {
