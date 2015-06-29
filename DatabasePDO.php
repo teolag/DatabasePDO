@@ -30,10 +30,15 @@ class DatabasePDO {
 		$result = $this->query($sql, $inputs);
 		return $result->fetchColumn();
 	}
-	
+
 	public function getKeyPair($sql, $inputs=array()) {
 		$result = $this->query($sql, $inputs);
 		return $result->fetchAll(PDO::FETCH_KEY_PAIR);
+	}
+
+	public function getColumn($sql, $inputs=array()) {
+		$result = $this->query($sql, $inputs);
+		return $result->fetchAll(PDO::FETCH_COLUMN);
 	}
 
 	public function query($sql, $inputs=array()) {
